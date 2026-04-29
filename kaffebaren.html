@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Kaffebaren – Södra Torggatan, Kungsbacka</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --espresso: #1E1408;
+    --brown: #3D2B1A;
+    --caramel: #B07D4A;
+    --caramel-light: #D4A96A;
+    --latte: #F0E2CC;
+    --cream: #FAF6F0;
+    --white: #FEFCFA;
+    --muted: rgba(30,20,8,0.48);
+    --border: rgba(176,125,74,0.18);
+    --border-dark: rgba(30,20,8,0.10);
+    --radius: 2px;
+    --pad: clamp(4.5rem, 9vw, 8rem);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--white);
+    color: var(--espresso);
+    font-size: 16px;
+    line-height: 1.7;
+    font-weight: 300;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 6%;
+    background: rgba(254,252,250,0.95);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border-dark);
+  }
+
+  .nav-logo { text-decoration: none; display: flex; flex-direction: column; line-height: 1.15; }
+  .nav-logo-top { font-family: 'Libre Baskerville', serif; font-size: 1.3rem; font-weight: 700; color: var(--espresso); letter-spacing: 0.02em; }
+  .nav-logo-sub { font-size: 0.58rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--caramel); }
+
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
+  .nav-links a { font-size: 0.78rem; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--espresso); }
+
+  .nav-cta { background: var(--caramel) !important; color: var(--white) !important; padding: 0.55rem 1.4rem; border-radius: var(--radius); font-weight: 500 !important; transition: opacity 0.2s !important; }
+  .nav-cta:hover { opacity: 0.85; }
+
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; border: none; background: none; padding: 4px; }
+  .hamburger span { display: block; width: 22px; height: 1.5px; background: var(--espresso); }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100svh;
+    display: grid; grid-template-columns: 5fr 4fr;
+    padding-top: 72px;
+    background: var(--cream);
+    position: relative; overflow: hidden;
+  }
+
+  .hero-left {
+    display: flex; flex-direction: column; justify-content: center;
+    padding: clamp(3rem, 7vw, 6rem) 5% clamp(3rem, 7vw, 6rem) 8%;
+    position: relative; z-index: 1;
+  }
+
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 0.75rem;
+    font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--caramel); margin-bottom: 1.75rem;
+  }
+  .hero-tag::before { content: ''; display: block; width: 32px; height: 1px; background: var(--caramel); }
+
+  .hero-title {
+    font-family: 'Libre Baskerville', serif;
+    font-size: clamp(3rem, 6vw, 5.8rem);
+    font-weight: 700; line-height: 1.08;
+    color: var(--espresso);
+  }
+  .hero-title em { font-style: italic; color: var(--caramel); display: block; }
+
+  .hero-sub {
+    font-size: 1.05rem; color: var(--muted); max-width: 44ch;
+    margin: 1.75rem 0 2.75rem; line-height: 1.85;
+  }
+
+  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
+
+  .btn-dark { display: inline-block; background: var(--espresso); color: var(--white); padding: 0.9rem 2.2rem; border-radius: var(--radius); font-size: 0.82rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; transition: background 0.2s; }
+  .btn-dark:hover { background: var(--caramel); }
+
+  .btn-line { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+  .btn-line::after { content: '→'; transition: transform 0.2s; }
+  .btn-line:hover { color: var(--espresso); }
+  .btn-line:hover::after { transform: translateX(4px); }
+
+  .hero-right {
+    background: var(--latte);
+    position: relative; overflow: hidden; min-height: 480px;
+    display: flex; align-items: flex-end; justify-content: flex-end;
+  }
+
+  .hero-right-deco {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 70% 60% at 30% 40%, rgba(176,125,74,0.12) 0%, transparent 70%),
+      var(--latte);
+  }
+
+  .hero-right-circles {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    width: 280px; height: 280px;
+  }
+  .hero-right-circles::before,
+  .hero-right-circles::after {
+    content: ''; position: absolute; border-radius: 50%; border: 1px solid rgba(176,125,74,0.18);
+  }
+  .hero-right-circles::before { inset: 0; }
+  .hero-right-circles::after { inset: 30px; }
+
+  .hero-img-placeholder {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    width: 180px; height: 180px; border-radius: 50%;
+    background: rgba(176,125,74,0.15);
+    border: 1px solid rgba(176,125,74,0.25);
+    display: flex; align-items: center; justify-content: center;
+    text-align: center;
+  }
+  .hero-img-placeholder span { font-family: 'Libre Baskerville', serif; font-style: italic; font-size: 0.85rem; color: rgba(176,125,74,0.55); }
+
+  .hero-badge {
+    position: absolute; bottom: 0; left: 0;
+    background: var(--espresso);
+    padding: 1.5rem 1.75rem;
+    display: flex; flex-direction: column; gap: 0.2rem;
+  }
+  .hero-badge-price { font-family: 'Libre Baskerville', serif; font-size: 1.5rem; font-weight: 700; color: var(--caramel-light); line-height: 1; }
+  .hero-badge-label { font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(254,252,250,0.45); }
+
+  .hero-rating-pill {
+    position: absolute; top: 2rem; right: 2rem;
+    background: var(--white);
+    padding: 0.75rem 1.25rem;
+    display: flex; align-items: center; gap: 0.75rem;
+    border: 1px solid var(--border-dark);
+  }
+  .hrp-stars { color: var(--caramel); font-size: 0.75rem; }
+  .hrp-num { font-family: 'Libre Baskerville', serif; font-size: 1.5rem; font-weight: 700; color: var(--espresso); line-height: 1; }
+  .hrp-text small { display: block; font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+  .hrp-text span { font-size: 0.75rem; color: var(--muted); }
+
+  /* ── SECTIONS ── */
+  section { padding: var(--pad) 8%; }
+
+  .eyebrow { display: inline-flex; align-items: center; gap: 0.75rem; font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--caramel); margin-bottom: 1.25rem; }
+  .eyebrow::before { content: ''; display: block; width: 26px; height: 1px; background: var(--caramel); }
+
+  .section-title { font-family: 'Libre Baskerville', serif; font-size: clamp(1.9rem, 4vw, 3.2rem); font-weight: 700; line-height: 1.18; color: var(--espresso); margin-bottom: 1rem; }
+  .section-title em { font-style: italic; color: var(--caramel); }
+
+  /* ── MENU HIGHLIGHT ── */
+  #menu { background: var(--espresso); padding: var(--pad) 8%; }
+  #menu .eyebrow { color: var(--caramel-light); }
+  #menu .eyebrow::before { background: var(--caramel-light); }
+  #menu .section-title { color: var(--cream); }
+
+  .menu-top { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: end; margin-bottom: 4rem; }
+  .menu-intro { color: rgba(240,226,204,0.6); max-width: 44ch; line-height: 1.85; }
+
+  .menu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(176,125,74,0.2); border: 1px solid rgba(176,125,74,0.2); }
+
+  .menu-item { background: var(--espresso); padding: 2rem 1.75rem; transition: background 0.22s; }
+  .menu-item:hover { background: var(--brown); }
+
+  .menu-item-cat { font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--caramel); margin-bottom: 0.75rem; }
+  .menu-item-name { font-family: 'Libre Baskerville', serif; font-size: 1.2rem; font-weight: 400; color: var(--cream); margin-bottom: 0.5rem; }
+  .menu-item-desc { font-size: 0.86rem; color: rgba(240,226,204,0.5); line-height: 1.7; }
+
+  /* ── ABOUT ── */
+  #about { background: var(--cream); display: grid; grid-template-columns: 1fr 1fr; gap: 7rem; align-items: center; }
+
+  .about-visual { position: relative; }
+  .about-visual-main { aspect-ratio: 4/5; background: var(--latte); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+  .about-visual-main::before { content: ''; position: absolute; inset: 18px; border: 1px solid rgba(176,125,74,0.18); pointer-events: none; }
+  .about-visual-main span { font-family: 'Libre Baskerville', serif; font-style: italic; font-size: 1rem; color: rgba(176,125,74,0.45); text-align: center; }
+
+  .about-stamp { position: absolute; bottom: -1.5rem; right: -1.5rem; width: 110px; height: 110px; border-radius: 50%; background: var(--caramel); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 2px; }
+  .about-stamp-num { font-family: 'Libre Baskerville', serif; font-size: 1.7rem; font-weight: 700; color: var(--white); line-height: 1; }
+  .about-stamp-label { font-size: 0.54rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(254,252,250,0.7); }
+
+  .about-right p { color: var(--muted); margin-bottom: 1.2rem; line-height: 1.9; }
+
+  .about-facts { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border: 1px solid var(--border); margin-top: 2.5rem; }
+  .fact { padding: 1.25rem; background: var(--cream); }
+  .fact-label { font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.3rem; }
+  .fact-val { font-family: 'Libre Baskerville', serif; font-size: 1rem; color: var(--espresso); }
+
+  /* ── REVIEWS ── */
+  #reviews { background: var(--white); }
+
+  .reviews-top { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: end; margin-bottom: 3.5rem; }
+  .reviews-score-big { text-align: right; }
+  .rsb-num { font-family: 'Libre Baskerville', serif; font-size: 5rem; font-weight: 700; color: var(--espresso); line-height: 1; }
+  .rsb-stars { color: var(--caramel); font-size: 1rem; margin: 6px 0; }
+  .rsb-count { font-size: 0.8rem; color: var(--muted); }
+
+  .reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+  .review-card { background: var(--white); padding: 2rem 1.75rem; }
+  .review-stars { color: var(--caramel); font-size: 0.8rem; margin-bottom: 1rem; }
+  .review-text { font-size: 0.9rem; color: var(--muted); line-height: 1.8; font-style: italic; margin-bottom: 1.5rem; }
+  .review-author { font-size: 0.82rem; font-weight: 500; color: var(--espresso); }
+  .review-meta { font-size: 0.7rem; color: rgba(30,20,8,0.3); margin-top: 2px; }
+
+  /* ── CONTACT ── */
+  #contact { background: var(--latte); padding: var(--pad) 8%; }
+
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start; margin-top: 3.5rem; }
+
+  .contact-info p { color: var(--muted); max-width: 42ch; margin-bottom: 2.5rem; line-height: 1.85; }
+  .contact-items { display: flex; flex-direction: column; gap: 1.25rem; }
+  .contact-item { display: flex; align-items: flex-start; gap: 1rem; }
+  .ci-icon { width: 38px; height: 38px; flex-shrink: 0; border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; color: var(--caramel); }
+  .ci-text small { display: block; font-size: 0.63rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
+  .ci-text span { font-size: 0.95rem; color: var(--espresso); }
+
+  .map-link { margin-top: 2rem; display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--caramel); text-decoration: none; border-bottom: 1px solid var(--border); padding-bottom: 2px; transition: border-color 0.2s; }
+  .map-link:hover { border-color: var(--caramel); }
+
+  .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .ff { display: flex; flex-direction: column; gap: 0.4rem; }
+  .ff label { font-size: 0.63rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+  .ff input, .ff textarea, .ff select { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 0.8rem 1rem; color: var(--espresso); font-family: 'DM Sans', sans-serif; font-size: 0.95rem; font-weight: 300; outline: none; transition: border-color 0.2s; resize: vertical; -webkit-appearance: none; }
+  .ff input::placeholder, .ff textarea::placeholder { color: rgba(30,20,8,0.3); }
+  .ff input:focus, .ff textarea:focus, .ff select:focus { border-color: rgba(176,125,74,0.55); }
+  .ff select option { background: var(--white); }
+
+  .btn-submit { align-self: flex-start; background: var(--espresso); color: var(--white); border: none; padding: 0.95rem 2.2rem; font-family: 'DM Sans', sans-serif; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; border-radius: var(--radius); cursor: pointer; transition: background 0.2s; margin-top: 0.5rem; }
+  .btn-submit:hover { background: var(--caramel); }
+
+  /* ── FOOTER ── */
+  footer { background: var(--espresso); padding: 2.5rem 8%; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+  .footer-logo { font-family: 'Libre Baskerville', serif; font-size: 1.1rem; font-weight: 700; color: var(--caramel-light); letter-spacing: 0.04em; }
+  .footer-copy { font-size: 0.75rem; color: rgba(240,226,204,0.28); }
+  .footer-links { display: flex; gap: 1.5rem; }
+  .footer-links a { font-size: 0.72rem; color: rgba(240,226,204,0.4); text-decoration: none; letter-spacing: 0.08em; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--caramel-light); }
+
+  /* ── MOBILE ── */
+  @media (max-width: 900px) {
+    #hero { grid-template-columns: 1fr; min-height: auto; }
+    .hero-right { min-height: 55vw; }
+    .hero-left { padding: 3rem 5%; }
+    .menu-top { grid-template-columns: 1fr; gap: 1rem; margin-bottom: 2.5rem; }
+    .menu-grid { grid-template-columns: 1fr; }
+    #about { grid-template-columns: 1fr; gap: 3rem; padding: var(--pad) 5%; }
+    .about-stamp { right: 1rem; bottom: 0; }
+    .about-visual { padding-bottom: 2rem; }
+    .about-facts { grid-template-columns: 1fr; }
+    .reviews-top { grid-template-columns: 1fr; gap: 1.5rem; }
+    .reviews-score-big { text-align: left; }
+    .reviews-grid { grid-template-columns: 1fr; }
+    .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .form-row { grid-template-columns: 1fr; }
+    section { padding: var(--pad) 5%; }
+    #menu, #contact, footer { padding-left: 5%; padding-right: 5%; }
+    footer { flex-direction: column; text-align: center; }
+    .footer-links { justify-content: center; }
+    .nav-links { display: none; flex-direction: column; position: fixed; top: 68px; left: 0; right: 0; background: rgba(254,252,250,0.98); padding: 2rem 6%; border-bottom: 1px solid var(--border-dark); gap: 1.5rem; }
+    .nav-links.open { display: flex; }
+    .hamburger { display: flex; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">
+    <span class="nav-logo-top">Kaffebaren</span>
+    <span class="nav-logo-sub">Kungsbacka · Södra Torggatan</span>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#menu">Meny</a></li>
+    <li><a href="#about">Om oss</a></li>
+    <li><a href="#reviews">Recensioner</a></li>
+    <li><a href="#contact" class="nav-cta">Hitta hit</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Meny">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-left">
+    <div class="hero-tag">Södra Torggatan 19 · Kungsbacka</div>
+    <h1 class="hero-title">
+      Ditt lokala kafé
+      <em>i hjärtat av stan.</em>
+    </h1>
+    <p class="hero-sub">Välkommen till Kaffebaren — ett avslappnat och inbjudande ställe för gott kaffe, smakrik mat och en stunds välbehövlig paus i vardagen.</p>
+    <div class="hero-actions">
+      <a href="https://facebook.com" target="_blank" class="btn-dark">Följ oss på Facebook</a>
+      <a href="tel:030030339" class="btn-line">0300-303 39</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-right-deco"></div>
+    <div class="hero-right-circles"></div>
+    <div class="hero-img-placeholder">
+      <span>Ditt foto<br>här</span>
+    </div>
+    <div class="hero-rating-pill">
+      <div class="hrp-stars">★★★★★</div>
+      <div class="hrp-num">4,4</div>
+      <div class="hrp-text">
+        <small>Snittbetyg</small>
+        <span>294 recensioner</span>
+      </div>
+    </div>
+    <div class="hero-badge">
+      <div class="hero-badge-price">100–200 kr</div>
+      <div class="hero-badge-label">Per person</div>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section id="menu">
+  <div class="menu-top">
+    <div>
+      <span class="eyebrow">Meny</span>
+      <h2 class="section-title">Enkelt, <em>gott</em><br>och välgjort</h2>
+    </div>
+    <p class="menu-intro">Från krämiga cappuccinos till smakrika surdegsmackor — vi lagar mat med kärlek och serverar det med ett leende. Allt till ett schysst pris.</p>
+  </div>
+  <div class="menu-grid">
+    <div class="menu-item">
+      <div class="menu-item-cat">Dryck</div>
+      <div class="menu-item-name">Cappuccino</div>
+      <p class="menu-item-desc">Klassisk cappuccino med perfekt skummad mjölk och fyllig espresso. Även med havremjölk.</p>
+    </div>
+    <div class="menu-item">
+      <div class="menu-item-cat">Dryck</div>
+      <div class="menu-item-name">Ice Chai Latte</div>
+      <p class="menu-item-desc">Kryddig och len iced chai — perfekt för en varm dag eller när du vill ha något lite annorlunda.</p>
+    </div>
+    <div class="menu-item">
+      <div class="menu-item-cat">Mat</div>
+      <div class="menu-item-name">Surdegsmackor</div>
+      <p class="menu-item-desc">Nybakat surdegsbröd med välvalda pålägg. Enkelt, mättande och oemotståndligt gott.</p>
+    </div>
+    <div class="menu-item">
+      <div class="menu-item-cat">Mat</div>
+      <div class="menu-item-name">Avocado Sandwich</div>
+      <p class="menu-item-desc">Krämig avocado på rostat bröd med fräscha tillbehör. En favorit som aldrig tröttas på.</p>
+    </div>
+    <div class="menu-item">
+      <div class="menu-item-cat">Mat</div>
+      <div class="menu-item-name">Tomat Toast &amp; Vegansallad</div>
+      <p class="menu-item-desc">Färska tomater på krispigt toast serverat med en fräsch vegansallad vid sidan om.</p>
+    </div>
+    <div class="menu-item">
+      <div class="menu-item-cat">Mat</div>
+      <div class="menu-item-name">Classic Toast</div>
+      <p class="menu-item-desc">Den klassiska toasten — enkel, god och alltid pålitlig. En riktig favorit bland stamgästerna.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-visual">
+    <div class="about-visual-main">
+      <span>Ditt foto<br>här</span>
+    </div>
+    <div class="about-stamp">
+      <div class="about-stamp-num">4,4</div>
+      <div class="about-stamp-label">294 recensioner</div>
+    </div>
+  </div>
+
+  <div class="about-right">
+    <span class="eyebrow">Om oss</span>
+    <h2 class="section-title">Mer än bara<br><em>ett kafé</em></h2>
+    <p>Kaffebaren är Kungsbackas mysigaste mötesplats belägen mitt på Södra Torggatan. Här kombineras gott kaffe med smakrik, prisvärd mat i en välkomnande och avslappnad miljö.</p>
+    <p>Vi erbjuder servering i lokalen, avhämtning och hemkörning — så du kan njuta av Kaffebaren oavsett var du befinner dig. Välkommen att stanna en stund eller ta med dig något gott på vägen.</p>
+    <div class="about-facts">
+      <div class="fact">
+        <div class="fact-label">Adress</div>
+        <div class="fact-val">Södra Torggatan 19, Kungsbacka</div>
+      </div>
+      <div class="fact">
+        <div class="fact-label">Telefon</div>
+        <div class="fact-val">0300-303 39</div>
+      </div>
+      <div class="fact">
+        <div class="fact-label">Öppettider</div>
+        <div class="fact-val">Stänger kl. 16:00</div>
+      </div>
+      <div class="fact">
+        <div class="fact-label">Pris per person</div>
+        <div class="fact-val">100–200 kr</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews">
+  <div class="reviews-top">
+    <div>
+      <span class="eyebrow">Vad gästerna säger</span>
+      <h2 class="section-title">Älskad av<br><em>Kungsbacka</em></h2>
+    </div>
+    <div class="reviews-score-big">
+      <div class="rsb-num">4,4</div>
+      <div class="rsb-stars">★★★★★</div>
+      <div class="rsb-count">294 recensioner på Google</div>
+    </div>
+  </div>
+  <div class="reviews-grid">
+    <div class="review-card">
+      <div class="review-stars">★★★★☆</div>
+      <p class="review-text">"Helt okej ställe. Kaffet är vanligt och kakorna gick ner bra. Finns havremjölk och vanlig mjölk. Lite högljutt men hyfsat trevligt ändå."</p>
+      <div class="review-author">Martina</div>
+      <div class="review-meta">Local Guide · Google · Verifierad recension</div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Anspråkslöst kafé med enkla maträtter, men så otroligt gott! Verkligen en positiv överraskning."</p>
+      <div class="review-author">Kristina Larsson</div>
+      <div class="review-meta">Google · Verifierad recension</div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Direkt välkomnande och avslappnat kafé. Kaffet var toppen, maten smakade gott och priset var rimligt. Kan varmt rekommenderas!"</p>
+      <div class="review-author">Chris</div>
+      <div class="review-meta">Google · Verifierad recension</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <span class="eyebrow">Hitta oss</span>
+  <h2 class="section-title">Välkommen<br>att <em>besöka oss</em></h2>
+  <div class="contact-grid">
+    <div class="contact-info">
+      <p>Vi finns mitt i Kungsbacka, lätt att hitta på Södra Torggatan 19. Kom in för en kopp kaffe, beställ avhämtning eller låt oss leverera direkt hem till dig.</p>
+      <div class="contact-items">
+        <div class="contact-item">
+          <div class="ci-icon">✆</div>
+          <div class="ci-text"><small>Telefon</small><span>0300-303 39</span></div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-icon">⌖</div>
+          <div class="ci-text"><small>Adress</small><span>Södra Torggatan 19, 434 30 Kungsbacka</span></div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-icon">◷</div>
+          <div class="ci-text"><small>Öppettider</small><span>Stänger kl. 16:00 — se Facebook för aktuella tider</span></div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-icon">◎</div>
+          <div class="ci-text"><small>Vi erbjuder</small><span>Servering · Avhämtning · Hemkörning</span></div>
+        </div>
+      </div>
+      <a href="https://www.google.com/maps/search/Södra+Torggatan+19+Kungsbacka" target="_blank" class="map-link">Visa på Google Maps →</a>
+    </div>
+
+    <form class="contact-form" onsubmit="handleSubmit(event)">
+      <div class="form-row">
+        <div class="ff"><label>Namn</label><input type="text" placeholder="Ditt namn" /></div>
+        <div class="ff"><label>E-post</label><input type="email" placeholder="din@epost.se" /></div>
+      </div>
+      <div class="ff">
+        <label>Ärende</label>
+        <select>
+          <option value="" disabled selected>Välj ett ärende</option>
+          <option>Beställning / Avhämtning</option>
+          <option>Hemkörning</option>
+          <option>Catering / Evenemang</option>
+          <option>Allmän fråga</option>
+          <option>Övrigt</option>
+        </select>
+      </div>
+      <div class="ff"><label>Meddelande</label><textarea rows="4" placeholder="Hur kan vi hjälpa dig?"></textarea></div>
+      <button type="submit" class="btn-submit" id="submitBtn">Skicka meddelande</button>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Kaffebaren</div>
+  <div class="footer-copy">© 2025 Kaffebaren · Södra Torggatan 19, Kungsbacka</div>
+  <div class="footer-links">
+    <a href="https://facebook.com" target="_blank">Facebook</a>
+    <a href="tel:030030339">Ring oss</a>
+  </div>
+</footer>
+
+<script>
+  const hamburger = document.getElementById('hamburger');
+  const navLinks  = document.getElementById('navLinks');
+  hamburger.addEventListener('click', () => navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submitBtn');
+    btn.textContent = 'Meddelande skickat ✓';
+    btn.style.background = '#5a7a5a';
+    btn.disabled = true;
+  }
+</script>
+</body>
+</html>
